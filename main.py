@@ -1,16 +1,22 @@
 from bs4 import BeautifulSoup
 import requests
 
-
-url = "https://books.toscrape.com/"
 valorant_page = "https://tracker.gg/valorant/profile/riot/Otto%230tto/matches"
-
 
 page = requests.get(valorant_page)
 soup = BeautifulSoup(page.text, "html.parser")
 
-test = soup.find("div", class_ = "trn-gamereport-list trn-gamereport-list--compact")
-print(test)
+matches = soup.find("div", class_="matches")
+game_report = matches.select_one(".trn-gamereport-list trn-gamereport-list--compact")
+
+print(game_report)
+
+
+xpath = "/html/body/div/div/div[2]/div[3]/div/main/div[3]/div[4]/div[2]/div[2]/div/div[2]/div[1]/div[2]/div[1]/div[2]/div[1]/div[2]"
+
+
+
+
 
 
 #test = soup.find("data-v-63b27203", class_ = "trn-match-row__text-value")
