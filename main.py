@@ -1,30 +1,28 @@
-from bs4 import BeautifulSoup
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver.common.keys import Keys
+from selenium import webdriver
+from selenium.webdriver.support.ui import WebDriverWait 
+from selenium.webdriver.support import expected_conditions as EC
+chrome_options = webdriver.ChromeOptions()
 import requests
 
+OS_USERNAME = 'joshu'
+chrome_options = chrome_options.add_argument(
+                f"--user-data-dir=C:\Program Files (x86)\Google\Chrome\Application")
+
+driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+
 valorant_page = "https://tracker.gg/valorant/profile/riot/Otto%230tto/matches"
+page = driver.get(valorant_page)
 
-page = requests.get(valorant_page)
-soup = BeautifulSoup(page.text, "html.parser")
+outside_KDA_path = '//*[@id="app"]/div[2]/div[3]/div/main/div[3]/div[3]/div[2]/div[2]/div/div[2]/div[1]/div[2]/div/div[2]/div[1]'
 
-matches = soup.find("div", class_="matches")
-game_report = matches.select_one(".trn-gamereport-list trn-gamereport-list--compact")
+outside_KDA = WebDriverWait(driver, 20).until(EC.presence_of_element_located((By.XPATH, outside_KDA_path))).text
 
-print(game_report)
-
-
-xpath = "/html/body/div/div/div[2]/div[3]/div/main/div[3]/div[4]/div[2]/div[2]/div/div[2]/div[1]/div[2]/div[1]/div[2]/div[1]/div[2]"
-
-
-
-
-
-
-#test = soup.find("data-v-63b27203", class_ = "trn-match-row__text-value")
-#test = soup.find_all("div", class_= "trn-match-row__text-value")
-#print(test)
-#books = soup.find_all("aritcle", class_= "product-pod")
-#price = soup.find_all("p", class_ = "price_color")
-
+print(outside_KDA)
 
 
 
